@@ -1,5 +1,5 @@
 import cv2
-from core.crop_receipt_on_image import binarize_image  # Import funkcji binarizacji
+from core.crop_receipt_on_image import binarize_image, filter_blur, transform_morphologically  # Import funkcji binarizacji
 
 # Lista ścieżek do obrazów
 image_paths = [
@@ -18,10 +18,10 @@ for path in image_paths:
         print(f"Błąd: Nie można wczytać obrazu {path}")
         continue  # Przejdź do następnego obrazu
 
-    binarized_image = binarize_image(image)  # Przetwórz obraz
+    binarized_image = filter_blur(image)  # Przetwórz obraz
 
     #$cv2.imshow(f"Binarized - {path}", binarized_image)  # Pokaż wynik
-    cv2.imwrite(f"bin{i}.png", binarized_image)
+    cv2.imwrite(f"filter{i}.png", binarized_image)
 
 
 #cv2.waitKey(0)  # Czekaj na klawisz
