@@ -49,7 +49,10 @@ def detect_edges(image, low_thres=50, high_thres=150):
     :param high_thres: Górny próg dla detektora Canny'ego
     :return: Obraz z wykrytymi krawędziami
     """
-    edges = cv2.Canny(image, low_thres, high_thres)
+
+    gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)  # Konwersja do skali szarości
+
+    edges = cv2.Canny(gray, low_thres, high_thres)
     return edges
 
 def transform_morphologically(binary_image, kernel_size=(5, 5)):

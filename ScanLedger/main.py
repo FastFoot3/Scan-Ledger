@@ -20,18 +20,18 @@ for path in image_paths:
 
     filtered_image = filter_blur(image)  # Przetwórz obraz
 
-    edges_image = detect_edges(filtered_image)  # Wykrywanie krawędzi
+    # edges_image = detect_edges(filtered_image)  # Wykrywanie krawędzi
 
-    cv2.imwrite(f"edges{i}.png", edges_image) # Zapisz wynik binaryzacji
+    # cv2.imwrite(f"edges{i}.png", edges_image) # Zapisz wynik binaryzacji
 
     # binarized_image = binarize_image(filtered_image) # Binaryzacja
 
-    # # Testowanie różnych wartości blockSize i C
-    # for block_size in [11, 21, 31, 41]:
-    #     for C in [2, 5, 10, 15]:
-    #         binarized_image = binarize_image(filtered_image, block_size, C) # Binaryzacja
+    # Testowanie różnych wartości blockSize i C
+    for low_thres in [75, 100, 150, 50, 67, 100]:
+        for high_thres in [150, 200, 300, 150, 200, 300]:
+            binarized_image = detect_edges(filtered_image, low_thres, high_thres) # Binaryzacja
 
-    #         cv2.imwrite(f"bin{i}_size={block_size}_C={C}.png", binarized_image)
+            cv2.imwrite(f"bin{i}_low={low_thres}_high={high_thres}.png", binarized_image)
 
 
     #cv2.imshow(f"Binarized - {path}", binarized_image)  # Pokaż wynik
