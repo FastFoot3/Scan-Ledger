@@ -1,5 +1,5 @@
 import cv2
-from core.crop_receipt_on_image import binarize_image, filter_blur, transform_morphologically  # Import funkcji
+from core.crop_receipt_on_image import binarize_image, filter_blur, transform_morphologically, detect_edges  # Import funkcji
 
 # Lista ścieżek do obrazów
 image_paths = [
@@ -19,14 +19,19 @@ for path in image_paths:
         continue  # Przejdź do następnego obrazu
 
     filtered_image = filter_blur(image)  # Przetwórz obraz
-    binarized_image = binarize_image(filtered_image) # Binaryzacja
 
-    # Testowanie różnych wartości blockSize i C
-    for block_size in [11, 21, 31, 41]:
-        for C in [2, 5, 10, 15]:
-            binarized_image = binarize_image(filtered_image, block_size, C) # Binaryzacja
+    edges_image = detect_edges(filtered_image)  # Wykrywanie krawędzi
 
-            cv2.imwrite(f"bin{i}_size={block_size}_C={C}.png", binarized_image)
+    cv2.imwrite(f"edges{i}.png", edges_image) # Zapisz wynik binaryzacji
+
+    # binarized_image = binarize_image(filtered_image) # Binaryzacja
+
+    # # Testowanie różnych wartości blockSize i C
+    # for block_size in [11, 21, 31, 41]:
+    #     for C in [2, 5, 10, 15]:
+    #         binarized_image = binarize_image(filtered_image, block_size, C) # Binaryzacja
+
+    #         cv2.imwrite(f"bin{i}_size={block_size}_C={C}.png", binarized_image)
 
 
     #cv2.imshow(f"Binarized - {path}", binarized_image)  # Pokaż wynik

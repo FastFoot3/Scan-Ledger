@@ -11,10 +11,13 @@ import numpy as np
 
 def filter_blur(image, gaussian_kernal=(5, 5), biliteral_d=9, biliteral_sigma_color=75, biliteral_sigma_space=75):
     """
-    Stosuje filtr Gaussowski do wygładzenia obrazu.
+    Stosuje filtr Gaussowski i biliteralny do wygładzenia obrazu.
 
     :param image: Obraz w kolorze lub skali szarości (np. wynik konwersji do grayscale)
     :param kernel_size: Rozmiar jądra filtra Gaussa (musi być nieparzysty, np. (5,5))
+    :param biliteral_d: Rozmiar sąsiedztwa dla filtra biliteralnego (np. 9)
+    :param biliteral_sigma_color: Sigma dla koloru w filtrze biliteralnym (np. 75)
+    :param biliteral_sigma_space: Sigma dla obszaru w filtrze biliteralnym (np. 75)
     :return: Wygładzony obraz
     """
 
@@ -36,6 +39,18 @@ def binarize_image(image, block_size=11, C=2):
     binary = cv2.adaptiveThreshold(gray, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY, block_size, C)
 
     return binary
+
+def detect_edges(image, low_thres=50, high_thres=150):
+    """
+    Wykrywa krawędzie w obrazie za pomocą detektora Canny'ego.
+
+    :param image: Obraz w kolorze lub skali szarości
+    :param low_thres: Dolny próg dla detektora Canny'ego
+    :param high_thres: Górny próg dla detektora Canny'ego
+    :return: Obraz z wykrytymi krawędziami
+    """
+    edges = cv2.Canny(image, low_thres, high_thres)
+    return edges
 
 def transform_morphologically(binary_image, kernel_size=(5, 5)):
     """
